@@ -1,10 +1,20 @@
 Clint
 -----------
 
-The C lint(er). Extract compiler diagnostics from any compiler with flags extracted from a
+The C lint(er): Extract compiler diagnostics from any compiler with flags extracted from a
 compilation database.
 
 ## Installation
+
+Note: Only tested in Linux.
+
+### From Release
+
+Get the latest release from [Releases](https://github.com/otolias/clint/releases), download
+executable, change permissions to execute and install somewhere in ```$PATH```
+(e.g. ```/usr/local/bin```).
+
+### From Source
 
 Install [Zig](https://ziglang.org/) version 0.13.
 
