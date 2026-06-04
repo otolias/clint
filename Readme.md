@@ -1,34 +1,39 @@
-[WIP] Clint
+Clint
 -----------
 
-The C(wannabe)lint(er). Extract compiler diagnostics from any compiler with flags extracted from a compilation
-database.
-
-## Dependencies
-
-- [Meson](https://github.com/mesonbuild/meson) build system.
-- [Ninja](https://github.com/ninja-build/ninja) for building.
-- [Json-c](https://github.com/json-c/json-c) for JSON parsing.
-- [Unity](https://github.com/ThrowTheSwitch/Unity) for unit testing.
-- A c compiler
+The C lint(er). Extract compiler diagnostics from any compiler with flags extracted from a
+compilation database.
 
 ## Installation
 
-meson setup build
-meson install -C build
+Install [Zig](https://ziglang.org/) version 0.13.
 
-## Running
+```sh
+zig build -Doptimize=ReleaseSafe
+cp zig-out/bin/clint /usr/local/bin/
+```
 
-You need a ```compile_commands.json``` in your project root. Clint will search for a compilation
-database in the current and parent directories. Run ```clint file.c``` and it should
-output compiler warnings for the file.
+## Usage
 
-## How it works
+You need a ```compile_commands.json``` in the project root. CMake and Meson create one in the build
+directory, so you can symlink it to the project root. If using Make, you can use
+[Bear](https://github.com/rizsotto/Bear). Then, running:
 
-Clint searches the compilation database for the file, tokenises it (splits it into words)
-and replaces the command output with /dev/null. It then runs the command and prints warnings
-and errors.
+```sh
+clint <file_1>.c <file_2>.c
+```
+
+transforms and executes the compilation command, and then outputs the compiler diagnostics.
+
+## Transformation
+
+- Replaces -I and -isystem relative paths with absolute.
+- Replaces all relative paths with absolute (including the input file), if possible.
+- Replaces -o output with /dev/null
+- Removes -M, -MF and -MQ dependency generation flags
+
+All other arguments are left as-is.
 
 ## Acknowledges
 
-Based on [gccdiag](https://gitlab.com/andrejr/gccdiag)
+Inspired by [gccdiag](https://gitlab.com/andrejr/gccdiag).
